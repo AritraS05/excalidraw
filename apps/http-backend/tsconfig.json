@@ -2,6 +2,8 @@
     "extends" : "@repo/typescript-config/base.json",
     "compilerOptions": {
         "rootDir": "./src", //ts code should exist here
-        "outDir": "./dist" //this is where my js code should spit out kinda  ts js mei convert hoke jaha check krne ayega hai ki nhi
+        "outDir": "./dist", //this is where my js code should spit out kinda  ts js mei convert hoke jaha check krne ayega hai ki nhi
+        "typeRoots": ["./types", "./node_modules/@types"],
+        "types": ["express"]
     }
 }
