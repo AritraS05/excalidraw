@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "./config";
 import { jwtPayloadWithUserId } from "./definitionfile";
+import { JWT_SECRET } from "@repo/backend-common/config";
+
 export function middleware(req:Request,res:Response,next:NextFunction){
     const token = req.headers["authorization"] ?? ""; //jwt takes string as first param so just fallback into empty string if undefined :)
     const decoded = jwt.verify(token,JWT_SECRET);
