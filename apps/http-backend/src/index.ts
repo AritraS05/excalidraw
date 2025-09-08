@@ -2,7 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { middleware } from "./middleware";
 import { JWT_SECRET } from "@repo/backend-common/config";
-import {createUserSchema} from "@repo/common/types"
+import {createUserSchema , signinSchema, createRoomSchema} from "@repo/common/types"
 const app = express();
 
 app.post("/signup", (req,res) =>{
@@ -22,6 +22,13 @@ app.post("/signup", (req,res) =>{
 })
 
 app.post("/signin", (req,res) =>{
+    const data = signinSchema.safeParse(req.body);
+    if(!data.success){
+        return res.json({
+            "message" : "Invalid inputs :)"
+        })
+        return;  
+    }
     const userId = 1;
     const token = jwt.sign({
         userId
@@ -33,6 +40,14 @@ app.post("/signin", (req,res) =>{
 })
 
 app.post("/room", middleware,(req,res) =>{
+    const data = createRoomSchema.safeParse(req.body);
+    if(!data.success){
+        return res.json({
+            "message" : "Invalid inputs :)"
+        }) 
+        return;  
+    }
+
     //todo : db call
 
     res.json({
