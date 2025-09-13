@@ -2,8 +2,8 @@
   "name": "@repo/common",
   "version": "1.0.0",
   "description": "",
-  "exports":{
-    "./types" : "./src/types.ts"
+  "exports": {
+    "./types": "./dist/types.js"
   },
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "express": "^5.1.0",
     "zod": "^4.1.5"
   }
 }
