@@ -1,8 +1,11 @@
 {
-  "name": "db",
+  "name": "@repo/db",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "exports": {
+    "./clients": "./dist/index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,6 +18,7 @@
   "type": "commonjs",
   "dependencies": {
     "@prisma/client": "6.15.0",
+    "express": "^5.1.0",
     "prisma": "^6.15.0"
   }
 }

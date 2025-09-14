@@ -2,12 +2,14 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { middleware } from "./middleware";
 import { JWT_SECRET } from "@repo/backend-common/config";
-import {createUserSchema , signinSchema, createRoomSchema} from "@repo/common/types"
+import {createUserSchema , signinSchema, createRoomSchema} from "@repo/common/types";
+import {prismaClient} from "@repo/db/clients";
 const app = express();
 
-app.post("/signup", (req,res) =>{
-    const data = createUserSchema.safeParse(req.body);
-    if(!data.success){
+app.post("/signup", async(req,res) =>{
+    const parsedData = createUserSchema.safeParse(req.body);
+    if(!parsedData.success){
+        console.log(parsedData.error);
         return res.json({
             "message" : "Invalid inputs :)"
         })
@@ -15,15 +17,28 @@ app.post("/signup", (req,res) =>{
     }
 
     //todo : db call
-
+    try{
+        await prismaClient.user.create({
+            data:{
+                email : parsedData.data?.username,
+                password : parsedData.data.password,
+                name: parsedData.data.name
+            }
+        })
+    }
+    catch(e){
+        res.status(411).json({
+            message:"user already exists :)"
+        })
+    }
     res.json({
         userId : "123"
     })
 })
 
 app.post("/signin", (req,res) =>{
-    const data = signinSchema.safeParse(req.body);
-    if(!data.success){
+    const parsedData = signinSchema.safeParse(req.body);
+    if(!parsedData.success){
         return res.json({
             "message" : "Invalid inputs :)"
         })
@@ -40,8 +55,8 @@ app.post("/signin", (req,res) =>{
 })
 
 app.post("/room", middleware,(req,res) =>{
-    const data = createRoomSchema.safeParse(req.body);
-    if(!data.success){
+    const parsedData = createRoomSchema.safeParse(req.body);
+    if(!parsedData.success){
         return res.json({
             "message" : "Invalid inputs :)"
         }) 
