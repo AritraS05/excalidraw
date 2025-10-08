@@ -83,7 +83,6 @@ app.post("/room", middleware,async(req,res) =>{
                 adminId : userId
             }
         })
-        //todo : db call
 
         res.json({
             roomId : room.id
